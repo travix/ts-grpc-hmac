@@ -1,0 +1,27 @@
+{
+  "name": "example",
+  "version": "0.0.0",
+  "description": "Example for gRPC Client/Server HMAC Interceptor",
+  "main": "main.js",
+  "type": "module",
+  "scripts": {
+    "client": "tsx ./src/client/main.ts",
+    "server": "tsx ./src/server/main.ts",
+    "generate": "npm run generate-test-types",
+    "generate-test-types": "proto-loader-gen-types --longs String --enums String --keepCase --defaults --oneofs --includeComments  -O ./generated --grpcLib @grpc/grpc-js example.proto"
+  },
+  "keywords": [
+    "hmac",
+    "interceptor",
+    "grpc"
+  ],
+  "author": "tooling-team@travix.com",
+  "license": "MIT",
+  "devDependencies": {
+    "@grpc/grpc-js": "^1.10.1",
+    "@grpc/proto-loader": "^0.7.10",
+    "grpc-hmac-interceptor": "file:../grpc-hmac-interceptor-1.0.0.tgz",
+    "tsx": "^4.7.1",
+    "typescript": "^5.3.3"
+  }
+}

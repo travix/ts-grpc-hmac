@@ -1,0 +1,8 @@
+*.json
+bin/
+coverage/
+build/
+dist/
+docs/
+*.md
+node_modules/

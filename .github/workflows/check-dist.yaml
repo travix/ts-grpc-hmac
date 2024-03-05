@@ -1,0 +1,59 @@
+name: Check dist/
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+    paths-ignore:
+      - '.github/workflows/**'
+      - '**.md'
+  workflow_dispatch:
+  workflow_call:
+
+jobs:
+  check-dist:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Node.js ${{inputs.node-version}}
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20.x
+      - id: cache
+        name: Get Cache NPM and NCC
+        run: |
+          echo "dir=$(npm config get cache)" >> $GITHUB_OUTPUT
+          echo "ncc-dir=$(node -e 'console.info(require("os").tmpdir()+"/ncc-cache");')" >> $GITHUB_OUTPUT
+      - name: Restore npm cache
+        uses: actions/cache@v4
+        with:
+          path: ${{ steps.cache.outputs.dir }}
+          key: ${{ runner.os }}-node-check-dist-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-check-dist-
+      - name: Restore ncc cache
+        uses: actions/cache@v4
+        with:
+          path: ${{ steps.cache.outputs.ncc-dir }}
+          key: ${{ runner.os }}-ncc-check-dist-${{ hashFiles('build/**') }}
+          restore-keys: |
+            ${{ runner.os }}-ncc-check-dist-
+      - name: Install dependencies
+        run: npm ci --ignore-scripts
+      - name: Rebuild the dist directory
+        run: npm run build
+      - id: diff
+        shell: bash
+        name: Compare the expected and actual dist directories
+        run: |
+          if [ "$(git diff --ignore-space-at-eol build/ | wc -l)" -gt "0" ]; then
+            echo "Detected uncommitted changes after the build. See the status below:"
+            git diff --color=always --ignore-space-at-eol build/
+            exit 1
+          fi
+      # If inners of the build directory were different than expected, upload the expected version as an artifact
+      - name: Upload artifact
+        if: ${{failure() && steps.diff.conclusion == 'failure'}}
+        uses: actions/upload-artifact@v4
+        with:
+          name: dist
+          path: build/
