@@ -4,6 +4,7 @@ on:
     types: [opened, synchronize, reopened, ready_for_review]
     paths-ignore:
       - '.github/workflows/**'
+      - '.github/ISSUE_TEMPLATE/**'
       - '**.md'
   workflow_dispatch:
   workflow_call:
