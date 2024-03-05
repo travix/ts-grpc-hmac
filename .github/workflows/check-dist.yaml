@@ -6,6 +6,7 @@ on:
       - '.github/workflows/**'
       - '.github/ISSUE_TEMPLATE/**'
       - '**.md'
+      - 'examples/**'
   workflow_dispatch:
   workflow_call:
 

@@ -6,6 +6,7 @@ on:
     paths-ignore:
       - '.github/ISSUE_TEMPLATE/**'
       - '**.md'
+      - 'examples/**'
   workflow_dispatch:
 
 jobs:
