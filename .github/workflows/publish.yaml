@@ -35,7 +35,6 @@ jobs:
         with:
           app-id: ${{ vars.TGHA_APP_ID }}
           private-key: ${{ secrets.TGHA_PRIVATE_KEY }}
-          owner: ${{ vars.TGHA_OWNER }}
       - name: Checkout
         uses: actions/checkout@v4
         with:
