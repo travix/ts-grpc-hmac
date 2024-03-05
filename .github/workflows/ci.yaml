@@ -2,8 +2,11 @@ name: CI
 
 on:
   pull_request:
+    branches:
+      - main
     paths-ignore:
       - '**.md'
+      - '.github/ISSUE_TEMPLATE/**'
   workflow_call:
 
 jobs:
