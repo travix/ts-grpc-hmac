@@ -5,12 +5,14 @@ on:
     branches: [ main ]
     paths-ignore:
       - '.github/workflows/**'
+      - '.github/ISSUE_TEMPLATE/**'
       - '**.md'
   pull_request:
     branches: [ main ]
     types: [ ready_for_review ]
     paths-ignore:
       - '.github/workflows/**'
+      - '.github/ISSUE_TEMPLATE/**'
       - '**.md'
   schedule:
     - cron: '0 0 1 * *' # Run at 00:00 on day-of-month 1.
