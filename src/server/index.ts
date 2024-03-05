@@ -41,7 +41,7 @@ export interface ServerInterceptor {
 /**
  * Implementation of the ServerInterceptor interface.
  */
-export class ServerInterceptorImpl implements ServerInterceptor {
+class ServerInterceptorImpl implements ServerInterceptor {
     auth: (message: string, keyId: string, signature: string) => Error | undefined;
     hmac: HMAC;
 
