@@ -2,8 +2,6 @@ syntax = "proto3";
 
 package example;
 
-import "google/protobuf/empty.proto"; // import google.protobuf.Empty
-
 option go_package = "go-grpc-hmac/example/pb"; // go_package is the package name for generated go code
 
 // User is a user
@@ -20,10 +18,15 @@ message GetUserRequest {
   string name = 1;
 }
 
+message Empty {
+  string empty = 1;
+}
+
+
 // UserService is a service exposed by Grpc servers that provides user management
 service UserService {
   // Get a user by name
   rpc GetUser(GetUserRequest) returns (User);
   // List all users
-  rpc ListUsers(google.protobuf.Empty) returns (stream User);
+  rpc ListUsers(Empty) returns (stream User);
 }

@@ -11,8 +11,9 @@
     "format-check": "prettier --check '**/*.{ts,js,cjs,json}'",
     "lint": "eslint src/**/*.ts test/**/*.ts --cache",
     "test": "vitest",
-    "generate": "npm run generate-test-types",
-    "generate-test-types": "proto-loader-gen-types --longs String --enums String --keepCase --defaults --oneofs --includeComments --include-dirs ./test/fixtures/ -O test/common/generated/ --grpcLib @grpc/grpc-js example.proto",
+    "generate": "npm run generate-proto-loader",
+    "generate-protoc": "mkdir -p test/common/static-generated && grpc_tools_node_protoc --proto_path=test/fixtures/ --js_out=import_style=commonjs,binary:./test/common/static-generated --grpc_out=grpc_js:./test/common/static-generated example.proto",
+    "generate-proto-loader": "proto-loader-gen-types --longs String --enums String --keepCase --defaults --oneofs --includeComments --include-dirs ./test/fixtures/ -O test/common/generated/ --grpcLib @grpc/grpc-js example.proto",
     "build-server": "ncc build src/server/index.ts -mo build/src/server --source-map --license licenses.txt --target es2022",
     "build-client": "ncc build src/client/index.ts -mo build/src/client --source-map --license licenses.txt --target es2022",
     "build": "ncc build ./index.ts -mo build --source-map --license licenses.txt --target es2022",
@@ -33,10 +34,6 @@
       "@semantic-release/release-notes-generator",
       "@semantic-release/changelog",
       "@semantic-release/npm",
-      {
-        "npmPublish": true,
-        "tarballDir": "build"
-      },
       [
         "@semantic-release/git",
         {

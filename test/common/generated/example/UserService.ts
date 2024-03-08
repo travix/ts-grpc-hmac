@@ -2,10 +2,7 @@
 
 import type * as grpc from "@grpc/grpc-js";
 import type { MethodDefinition } from "@grpc/proto-loader";
-import type {
-    Empty as _google_protobuf_Empty,
-    Empty__Output as _google_protobuf_Empty__Output
-} from "../google/protobuf/Empty";
+import type { Empty as _example_Empty, Empty__Output as _example_Empty__Output } from "../example/Empty";
 import type {
     GetUserRequest as _example_GetUserRequest,
     GetUserRequest__Output as _example_GetUserRequest__Output
@@ -67,26 +64,20 @@ export interface UserServiceClient extends grpc.Client {
      * List all users
      */
     ListUsers(
-        argument: _google_protobuf_Empty,
+        argument: _example_Empty,
         metadata: grpc.Metadata,
         options?: grpc.CallOptions
     ): grpc.ClientReadableStream<_example_User__Output>;
-    ListUsers(
-        argument: _google_protobuf_Empty,
-        options?: grpc.CallOptions
-    ): grpc.ClientReadableStream<_example_User__Output>;
+    ListUsers(argument: _example_Empty, options?: grpc.CallOptions): grpc.ClientReadableStream<_example_User__Output>;
     /**
      * List all users
      */
     listUsers(
-        argument: _google_protobuf_Empty,
+        argument: _example_Empty,
         metadata: grpc.Metadata,
         options?: grpc.CallOptions
     ): grpc.ClientReadableStream<_example_User__Output>;
-    listUsers(
-        argument: _google_protobuf_Empty,
-        options?: grpc.CallOptions
-    ): grpc.ClientReadableStream<_example_User__Output>;
+    listUsers(argument: _example_Empty, options?: grpc.CallOptions): grpc.ClientReadableStream<_example_User__Output>;
 }
 
 /**
@@ -101,7 +92,7 @@ export interface UserServiceHandlers extends grpc.UntypedServiceImplementation {
     /**
      * List all users
      */
-    ListUsers: grpc.handleServerStreamingCall<_google_protobuf_Empty__Output, _example_User>;
+    ListUsers: grpc.handleServerStreamingCall<_example_Empty__Output, _example_User>;
 }
 
 export interface UserServiceDefinition extends grpc.ServiceDefinition {
@@ -111,10 +102,5 @@ export interface UserServiceDefinition extends grpc.ServiceDefinition {
         _example_GetUserRequest__Output,
         _example_User__Output
     >;
-    ListUsers: MethodDefinition<
-        _google_protobuf_Empty,
-        _example_User,
-        _google_protobuf_Empty__Output,
-        _example_User__Output
-    >;
+    ListUsers: MethodDefinition<_example_Empty, _example_User, _example_Empty__Output, _example_User__Output>;
 }

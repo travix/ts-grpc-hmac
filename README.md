@@ -28,7 +28,11 @@ Add the HMAC server interceptor to the gRPC server.
 
 ### 2. Client
 
-Add the HMAC client interceptor to the gRPC client.
+Create the HMAC client interceptor using the provided function `NewClientInterceptor`. By default, the interceptor expects the proto to be loaded by `@grpc/proto-loader`, and the `@grpc/grpc-js` library can be used. If the proto is loaded by protoc, you need to pass `true` as the third argument in the interceptor function call.
+
+#### Case 1: Proto Loaded by `@grpc/proto-loader`
+
+
 ```typescript
     // keyId and secretKey for HMAC authentication
     const target = "localhost:50051";
@@ -39,6 +43,22 @@ Add the HMAC client interceptor to the gRPC client.
     interceptors: [interceptor.WithInterceptor()]
 });
 ```
+In this case, the proto is loaded by `@grpc/proto-loader`, and you can use the `@grpc/grpc-js` library for your gRPC client.
+
+#### Case 2: Proto Loaded by `protoc` or `grpc-tools`
+
+```typescript
+    // keyId and secretKey for HMAC authentication
+    const target = "localhost:50051";
+    const interceptor = NewClientInterceptor(keyId, secretKey, true);
+    
+    // create gRPC client
+    const client: ServiceClient = new construct(target, credentials.createInsecure(), {
+    interceptors: [interceptor.WithInterceptor()]
+});
+```
+In this case, the proto is loaded by `protoc` or `grpc-tools`, as the messaged wrapped with `jspb.Message`, so interceptor needs to handle the message accordingly.
+
 ---
 ## ✏️ [Example]
 

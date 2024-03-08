@@ -36,16 +36,19 @@ export interface ClientInterceptor {
 class ClientInterceptorImpl implements ClientInterceptor {
     private readonly hmacKeyId: string;
     private readonly hmacSecret: string;
+    private readonly protoStaticGeneration?: boolean;
     private hmac: HMAC;
 
     /**
      * Create a new instance of the ClientInterceptor.
      * @param hmacKeyId - HMAC key ID.
      * @param hmacSecret - HMAC secret key.
+     * @param protoStaticGeneration - if true, the user generate proto using proto-loader, if false, the user generate proto using protoc, default is false.
      */
-    constructor(hmacKeyId: string, hmacSecret: string) {
+    constructor(hmacKeyId: string, hmacSecret: string, protoStaticGeneration?: boolean) {
         this.hmacKeyId = hmacKeyId;
         this.hmacSecret = hmacSecret;
+        this.protoStaticGeneration = protoStaticGeneration;
         this.hmac = new HMAC();
     }
 
@@ -68,21 +71,13 @@ class ClientInterceptorImpl implements ClientInterceptor {
                 startNext = next;
             })
             .withSendMessage((message, next) => {
-                if (typeof message === "string") {
-                    log.info(`Sending message: ${message}`);
-                } else if (message instanceof Buffer) {
-                    log.info(`Sending message: ${message.toString()}`);
-                } else if (typeof message === "object") {
-                    log.info(`Sending message: ${JSON.stringify(message)}`);
-                } else if (typeof message === "number") {
-                    log.info(`Sending message: ${message}`);
-                } else if (typeof message === "boolean") {
-                    log.info(`Sending message: ${message}`);
-                } else if (message === undefined) {
-                    log.info(`Sending message: undefined`);
+                let messageObject = message;
+                if (this.protoStaticGeneration) {
+                    messageObject = message.toObject();
                 }
+                log.info(`Sending message: ${JSON.stringify(messageObject)}`);
                 // Encode the message and generate the signature
-                const [msg, encodeErr] = this.hmac.buildMessage(message, options.method_definition.path);
+                const [msg, encodeErr] = this.hmac.buildMessage(messageObject, options.method_definition.path);
                 if (encodeErr) {
                     log.error(`Failed to encode request: ${encodeErr}`);
                     return;
@@ -130,8 +125,13 @@ class ClientInterceptorImpl implements ClientInterceptor {
  * Factory function to create a new client interceptor.
  * @param hmacKeyId - HMAC key ID.
  * @param hmacSecret - HMAC secret key.
+ * @param protoStaticGeneration - if true, the user generate proto using proto-loader, if false, the user generate proto using protoc, default is false.
  * @returns ClientInterceptor
  */
-export const NewClientInterceptor = (hmacKeyId: string, hmacSecret: string): ClientInterceptor => {
-    return new ClientInterceptorImpl(hmacKeyId, hmacSecret);
+export const NewClientInterceptor = (
+    hmacKeyId: string,
+    hmacSecret: string,
+    protoStaticGeneration?: boolean
+): ClientInterceptor => {
+    return new ClientInterceptorImpl(hmacKeyId, hmacSecret, protoStaticGeneration);
 };

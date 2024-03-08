@@ -12,6 +12,7 @@ type SubtypeConstructor<Constructor extends new (...args: any) => any, Subtype> 
 
 export interface ProtoGrpcType {
     example: {
+        Empty: MessageTypeDefinition;
         GetUserRequest: MessageTypeDefinition;
         User: MessageTypeDefinition;
         /**
@@ -19,11 +20,6 @@ export interface ProtoGrpcType {
          */
         UserService: SubtypeConstructor<typeof grpc.Client, _example_UserServiceClient> & {
             service: _example_UserServiceDefinition;
-        };
-    };
-    google: {
-        protobuf: {
-            Empty: MessageTypeDefinition;
         };
     };
 }
