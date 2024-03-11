@@ -4,4 +4,4 @@ import { NewServerInterceptor } from "./src/server";
 import { HMAC, GetSecret } from "./src/lib/hmac";
 
 export { initLogger, NewClientInterceptor, NewServerInterceptor, HMAC };
-export type {GetSecret}
+export type { GetSecret };

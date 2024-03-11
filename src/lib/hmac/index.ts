@@ -36,9 +36,9 @@ export class HMAC {
             requestString = req;
         } else if (typeof req === "object") {
             const replacer = (key, value) => {
-                if (typeof(value) === "string" && value === "") return undefined
-                return value
-            }
+                if (typeof value === "string" && value === "") return undefined;
+                return value;
+            };
             requestString = isEmptyObject(req) ? "" : JSON.stringify(req, replacer, 0);
         } else {
             return ["", new Error("Invalid request type")];

@@ -56,8 +56,10 @@ export const initLogger = (): Logger => {
             format.label({ label: "ts-grpc-hmac" }),
             customSimpleFormat(colorizeText)
         ),
-        transports: [new transports.Console({
-            level: LOG_LEVEL
-        })]
+        transports: [
+            new transports.Console({
+                level: LOG_LEVEL
+            })
+        ]
     });
 };
