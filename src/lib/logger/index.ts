@@ -44,6 +44,8 @@ const getLevelColor = (level: string): ChalkInstance => {
     }
 };
 
+const LOG_LEVEL: string = process.env.LOG_LEVEL || "info";
+
 // Initialize logger function
 export const initLogger = (): Logger => {
     const colorizeText: ColorizeText = (text: string, color: ChalkInstance) => color(text); // Default color for level
@@ -54,6 +56,8 @@ export const initLogger = (): Logger => {
             format.label({ label: "ts-grpc-hmac" }),
             customSimpleFormat(colorizeText)
         ),
-        transports: [new transports.Console()]
+        transports: [new transports.Console({
+            level: LOG_LEVEL
+        })]
     });
 };
