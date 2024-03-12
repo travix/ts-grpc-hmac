@@ -26,7 +26,6 @@ const main = () => {
     const client: ServiceClient = new construct(target, credentials.createInsecure(), {
         interceptors: [interceptor.WithInterceptor()]
     });
-
     const req = { name: "unknown" } as GetUserRequest;
     req.name = "Unknown";
     client.getUser(req, (err: ServiceError, response: User) => {
