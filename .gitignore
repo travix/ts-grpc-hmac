@@ -123,3 +123,9 @@ dist
 .yarn/install-state.gz
 .pnp.*
 .npmignore
+
+# asdf
+.tool-versions
+
+## IDEA settings
+.idea/

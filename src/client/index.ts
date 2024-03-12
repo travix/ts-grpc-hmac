@@ -75,7 +75,6 @@ class ClientInterceptorImpl implements ClientInterceptor {
                 if (this.protoStaticGeneration) {
                     messageObject = message.toObject();
                 }
-                log.info(`Sending message: ${JSON.stringify(messageObject)}`);
                 // Encode the message and generate the signature
                 const [msg, encodeErr] = this.hmac.buildMessage(messageObject, options.method_definition.path);
                 if (encodeErr) {
