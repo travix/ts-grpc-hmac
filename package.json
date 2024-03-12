@@ -1,6 +1,6 @@
 {
   "name": "grpc-hmac-interceptor",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Nodejs library for effortless HMAC Client and Server interceptors in gRPC applications.",
   "type": "module",
   "main": "build/index.js",
